@@ -1,6 +1,37 @@
 <?php
 session_start();
 define('TITLE',"Selecció alumne/a");
+
+function studentsfromcursid($cursid,$llinatge1,$dbc) {
+  //Imprimeix files de la taula corresponents als estudiants que poden escollir la materia
+  //SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INNER JOIN curs AS cu USING (cursid) INNER JOIN classe as cl USING (classeid) WHERE a.llinatge1='MOLINA' AND cu.cursid=2 
+$q="SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INNER JOIN curs AS cu USING (cursid) INNER JOIN classe as cl USING (classeid) WHERE a.llinatge1='$llinatge1' AND cu.cursid=$cursid";
+  //echo $q."<br />";
+    $r = mysqli_query($dbc, $q); // Run the query.
+		if ($r){
+    while($row=mysqli_fetch_array($r,MYSQLI_NUM)){
+        echo "<tr>";
+        echo "<td>";
+        $alumneid=$row[4];
+        echo "<input type='radio' name='alumneid' value='$alumneid'>";
+        echo "</td>";
+        echo "<td>";
+        $nom = $row[0];
+        $llinatge1 = $row[1];
+        $llinatge2 = $row[2];
+        echo "$nom $llinatge1 $llinatge2";
+        echo "</td>";
+        echo "<td>";
+        $classe = $row[3];
+        echo "$classe";
+        echo "</td>";      
+        echo "</tr>\n";
+      }
+      } else {
+      echo "Error: ".mysqli_error($dbc);
+    }   
+}
+
 ?>
 <!doctype html>
 
@@ -41,42 +72,27 @@ define('TITLE',"Selecció alumne/a");
 if ($_SERVER['REQUEST_METHOD']=='POST'){
 
 $llinatge1 = $_POST['llinatge1'];
-//SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INNER JOIN curs AS cu USING (cursid) INNER JOIN classe as cl USING (classeid) WHERE a.llinatge1='MOLINA' AND cu.cursid=2 
-$q="SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INNER JOIN curs AS cu USING (cursid) INNER JOIN classe as cl USING (classeid) WHERE a.llinatge1='$llinatge1' AND cu.cursid={$_SESSION['cursid']}";
-  //echo $q."<br />";
-    $r = mysqli_query($dbc, $q); // Run the query.
-		if ($r){
-      if(mysqli_num_rows($r)==0){
-        echo "No hay ningún alumno con este primer apellido en este curso";
-        printform();
-      }else {
-        echo "<form action='confirma.php' method='GET'>";
-        echo "<table border=1>\n";
-    while($row=mysqli_fetch_array($r,MYSQLI_NUM)){
-        echo "<tr>";
-        echo "<td>";
-        $alumneid=$row[4];
-        echo "<input type='radio' name='alumneid' value='$alumneid'>";
-        echo "</td>";
-        echo "<td>";
-        $nom = $row[0];
-        $llinatge1 = $row[1];
-        $llinatge2 = $row[2];
-        echo "$nom $llinatge1 $llinatge2";
-        echo "</td>";
-        echo "<td>";
-        $classe = $row[3];
-        echo "$classe";
-        echo "</td>";
-        echo "</tr>\n";
-    }
-        echo "</table>\n";
+
+  //Muntam el formulari per triar entre tots els alumnes dels cursos on s'oferta l'extraescolar
+  echo "<form action='confirma.php' method='GET'>";
+  echo "<table border=1>\n";  
+  
+// Obtenim la llista d'alumnes amb aquest llinatge per al curs primàri
+  studentsfromcursid($_SESSION['cursid'],$llinatge1,$dbc);
+  
+
+    //Obtenim la llista d'alumnes amb aquest llinatge per als cursos secundaris
+    $cursossecundaris=$_SESSION['altrescursosid'];
+    foreach ($cursossecundaris as $curssecundariid) {
+      studentsfromcursid($curssecundariid,$llinatge1,$dbc);
+    }  
+      
+    //Tancam la taula i el formulari  
+      echo "</table>\n";
         echo "<input type='submit'>";
         echo "</form>";
-      }
-    } else {
-      echo "Error: ".mysqli_error($dbc);
-    }
+//      } //else
+
   
 } else {
   

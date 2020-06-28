@@ -1,5 +1,7 @@
 <?php
-session_start();
+require('inc-header.php');
+?>
+<?php
 define('TITLE',"Confirmació Inscripció");
 ?>
 <!doctype html>

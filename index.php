@@ -1,6 +1,6 @@
 <?php
-session_start();
-define('TITLE',"Inscripció Activitats Extraescolars SJO Primària 19-20");
+require('inc-header.php');
+define('TITLE',$title);
 ?>
 <!doctype html>
 

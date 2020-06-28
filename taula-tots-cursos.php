@@ -1,6 +1,7 @@
 <?php
-require('inc-header.php');
-define('TITLE',$title);
+// Aquest fitxer està deprecat. Es podria esborrar. El deix de moment per si de cas...
+session_start();
+define('TITLE',"Inscripció Activitats Extraescolars SJO Primària 19-20");
 ?>
 <!doctype html>
 
@@ -20,6 +21,7 @@ define('TITLE',$title);
   <!-- <script src="js/scripts.js"></script> -->
   <h1><?php echo TITLE ?></h1>
 <?php
+  require("connect.php");
   require("functions.php");
 
 if (!$_SESSION['autenticat']){
@@ -50,7 +52,6 @@ if (!$_SESSION['autenticat']){
 if ($_SERVER['REQUEST_METHOD']=='POST'){
   if (isset($_POST['curs']) && $_POST['curs']!="---") {
     $curstriat=$_POST['curs'];
-    $curs=$curstriat;
     echo "curs triat: $curstriat <br>";
     
     //Obtenim l'id del curs triat ja que el necessitarem
@@ -134,24 +135,25 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
   // table headings
   echo "<tr><th></th>";
     foreach ($dies as $dia){
-      echo "<th>$dia</th>";
+      echo "<th colspan='$numhores'>$dia</th>";
     }
   echo "</tr>\n";
-//  echo "<tr><th></th>";
-//    foreach ($dies as $dia) {
-//     foreach ($hores as $hora){
-//       echo "<th>$hora</th>";
-//     }
-//    }
-//  echo "</tr>\n";
+  echo "<tr><th></th>";
+    foreach ($dies as $dia) {
+    foreach ($hores as $hora){
+      echo "<th>$hora</th>";
+    }
+    }
+  echo "</tr>\n";
     // table contents
-  foreach($hores as $hora){
+  foreach($cursos as $curs){
     echo "<tr>";
     echo "<th>";
-      echo $hora;
+      $ordinal=explode(" ",$curs);
+      echo $ordinal[0];
     echo "</th>";
     foreach($dies as $dia){
-      //foreach($hores as $hora){
+      foreach($hores as $hora){
         echo "<td>";
         $ss=getsessions($dia,$hora,$curs,$dbc);
         foreach ($ss as $s){
@@ -159,7 +161,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
           echo "<a href='./extraescolar.php/?id={$s['id']}' title='{$s['nomextesc']}'>".$s['nom']."</a><br />";
         }
         echo "</td>";
-      //}
+      }
     }
     echo "</tr>\n";
   }
