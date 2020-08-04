@@ -1,5 +1,5 @@
 <?php
-session_start();
+require('inc-header.php');
 define('TITLE',"Confirmació extraescolar");
 ?>
 <!doctype html>
@@ -20,8 +20,8 @@ define('TITLE',"Confirmació extraescolar");
   <!-- <script src="js/scripts.js"></script> -->
   <h1><?php echo TITLE ?></h1>
 <?php
-  require("connect.php");
-  require("functions.php");
+  //require("connect.php");
+  //require("functions.php");
 //echo $_SESSION['codi'];
 if (!$_SESSION['autenticat']){
   redirect_user("index.php");
@@ -121,7 +121,8 @@ if (!isset($_GET['id'])){
       ?>
   </ul>
 <?php
-    echo "<p>Núm places: $places - $ocupades</p>";
+    $disponibles=$places - $ocupades;
+    echo "<p>Núm places: $disponibles ($places - $ocupades)</p>";
     echo "<p>Hora:</p>";
     foreach ($hores as $hora){
       echo "<p>{$hora['dia']} - {$hora['hora']}</p>";
@@ -129,7 +130,17 @@ if (!isset($_GET['id'])){
 ?>    
 
   <a href="../taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a>
+<?php
+  if ($disponibles>0) {
+?>
   <a href="../alumne.php">Anar a la selecció de l'alumne/a &gt;&gt;</a>
+<?php
+  } else {
+?>
+  <p>No queden places disponibles</p>
+<?php
+  }
+?>
   
 </body>
 </html>

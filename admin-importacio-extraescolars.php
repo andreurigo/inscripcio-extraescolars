@@ -21,7 +21,7 @@ define('TITLE',"Importació Extraescolars");
   <h1><?php echo TITLE;?></h1>
 <?php
 
-  require("functions.php"); 
+  //require("functions.php"); 
   if ($_SESSION['administrator']){ // check admin
     $data=file("extraescolars.csv");
     $linecount=1;

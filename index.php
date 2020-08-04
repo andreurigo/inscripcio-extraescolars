@@ -21,7 +21,7 @@ define('TITLE',$title);
   <h1><?php echo TITLE ?></h1>
 <?php
   //require("connect.php");
-  require("functions.php");
+  //require("functions.php");
 if ($_SERVER['REQUEST_METHOD']=='POST'){
 
 $to = $_POST['correu'];
@@ -41,6 +41,16 @@ mail($to, $subject, $body);
   
 ?>
 
+  <p>
+    <?php
+      if ($_SESSION['activat']) {
+        echo "El procés d'inscripció està actualment obert";
+      } else {
+        echo "La inscripció s'activarà a les $hour:$minute el $day del $month de $year";
+      }
+    ?>
+  </p>
+  
 <form method="POST" action="">
   <label>Nom: <input type="text" name="nom"></label><br />
   <label>Correu: <input type="email" name="correu"></label><br />

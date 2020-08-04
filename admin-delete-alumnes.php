@@ -1,6 +1,6 @@
 <?php
 require('inc-header.php');
-define('TITLE',"Reset year");
+define('TITLE',"Esborrat alumnes");
 ?>
 <!doctype html>
 
@@ -24,17 +24,8 @@ define('TITLE',"Reset year");
 if ($_SESSION['administrator']){ // check admin
   if($_SERVER['REQUEST_METHOD']=='POST'){  // check post
     if($_POST["confirmid"]=="x1123y"){
-    // TRUNCATE TABLE inscripcions
-    executequery($dbc,"TRUNCATE TABLE inscripcions");
-    // TRUNCATE TABLE `altres-cursos-extraescolar`
-    executequery($dbc,"TRUNCATE TABLE `altres-cursos-extraescolar`");
-    // TRUNCATE TABLE hores
-    executequery($dbc,"TRUNCATE TABLE hores");
-    // DELETE FROM sessions
-    executequery($dbc,"DELETE FROM sessions");
-    // DELETE FROM extraescolars
-    executequery($dbc,"DELETE FROM extraescolars");
-      echo "<p>Confirmat l'esborrat de la base de dades.</p>";
+    executequery($dbc,"DELETE FROM alumnes");
+      echo "<p>Confirmat l'esborrat dels alumnes.</p>";
     }
     //echo "<a href='taula.php'>Següent</a>";
   } else { // check post
@@ -42,7 +33,7 @@ if ($_SESSION['administrator']){ // check admin
 ?>
 
 <p>
-ATENCIÓ: Si espitjau confirmar, esborrareu totes les dades de l'aplicació. Això només s'ha de fer abans de fer una importació per a començar el nou curs. Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas. 
+ATENCIÓ: Si espitjau confirmar, esborrareu la taula d'alumnes. Això només s'ha de fer abans de fer una importació per a començar el nou curs. Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas. 
 </p>
 
 <form action="" method="POST">

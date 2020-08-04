@@ -1,11 +1,15 @@
+<?php
+require('inc-header.php');
+define('TITLE',"Importació alumnes");
+?>
 <!doctype html>
 
 <html lang="en">
 <head>
   <meta charset="utf-8">
 
-  <title>Importació alumnes</title>
-  <meta name="description" content="Importació alumnes">
+  <title><?php echo TITLE;?></title>
+  <meta name="description" content="<?php echo TITLE;?>">
   <meta name="author" content="Andreu Rigo">
 
   <link rel="stylesheet" href="css/styles.css?v=1.0">
@@ -14,11 +18,11 @@
 
 <body>
   <!-- <script src="js/scripts.js"></script> -->
-  <h1>Importació Alumnes</h1>
+  <h1><?php echo TITLE;?></h1>
 <?php
 
-  require("functions.php");  
-  require("connect.php");
+  //require("functions.php");  
+  //require("connect.php");
   $data=file("alumnes.csv");
   foreach($data as $line) {
     //echo $line."<br>\n";
@@ -28,10 +32,13 @@
     //echo "curs:".$curs."<br>\n";
     $cursid=findid($curs,"curs",$dbc);
     $classeid=findid($classe,"classe",$dbc);
+    $nom=trim($fields[3]);
+    $llinatge1=trim($fields[4]);
+    $llinatge2=trim($fields[5]);
     //echo "cursid:".$cursid."<br>\n";
     //echo "classeid:".$classeid."<br>\n";
     // INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6])
-    $q = "INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES (NULL,'$fields[3]','$fields[4]','$fields[5]','$cursid','$classeid')";
+    $q = "INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES (NULL,'$nom','$llinatge1','$llinatge2','$cursid','$classeid')";
 		$r = mysqli_query($dbc, $q); // Run the query.
 		if ($r){
       echo "$line instertada a la base de dades<br>";

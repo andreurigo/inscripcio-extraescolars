@@ -1,6 +1,9 @@
 <?php
 require('inc-header.php');
-define('TITLE',"logout");
+define('TITLE',"template");
+
+
+
 ?>
 <!doctype html>
 
@@ -20,15 +23,31 @@ define('TITLE',"logout");
   <!-- <script src="js/scripts.js"></script> -->
   <h1><?php echo TITLE ?></h1>
 <?php
-  //require("connect.php");
-  //require("functions.php");
+  
+  function printform(){
+  ?>
+  <form method="POST" action="">
+  <p>
+    XXXXXXXXXXX
+    </p>
+  <label>Field: <input type="text" name="field"></label><br />
+  <input type="submit">
+</form>
+  <?php
+}
+  
 
-unset($_SESSION);
-session_destroy();
+    
+if ($_SERVER['REQUEST_METHOD']=='POST'){
+
+
   
+} else {
   
+printform();
+  
+}
 ?>
-
   
 </body>
 </html>

@@ -1,6 +1,9 @@
 <?php
 require('inc-header.php');
-define('TITLE',"logout");
+define('TITLE',"Estat procés d'inscripció");
+
+
+
 ?>
 <!doctype html>
 
@@ -19,16 +22,24 @@ define('TITLE',"logout");
 <body>
   <!-- <script src="js/scripts.js"></script> -->
   <h1><?php echo TITLE ?></h1>
-<?php
+  <p>
+    
+  <?php
+
+  
   //require("connect.php");
   //require("functions.php");
 
-unset($_SESSION);
-session_destroy();
-  
-  
-?>
 
   
+        if ($_SESSION['activat']) {
+        echo "El procés d'inscripció està actualment obert";
+      } else {
+        echo "La inscripció s'activarà a les $hour:$minute el $day del $month de $year";
+      }
+  
+
+?>
+  </p>
 </body>
 </html>
