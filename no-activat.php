@@ -36,6 +36,7 @@ define('TITLE',"Estat procés d'inscripció");
         echo "El procés d'inscripció està actualment obert";
       } else {
         echo "La inscripció s'activarà a les $hour:$minute el $day del $month de $year";
+        if ($faltenminuts<600) echo "<br />Falten $faltenminuts minuts";
       }
   
 
