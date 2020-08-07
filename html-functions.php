@@ -44,6 +44,24 @@ echo <<<HDS
 HDS;
 }
 
+function htmlbuttonrightlink($text,$url) {
+echo <<<HDS
+  <a href="$url">
+				<div class="container-contact100-form-btn">
+					<div class="wrap-contact100-form-btn">
+						<div class="contact100-form-bgbtn"></div>
+						<button class="contact100-form-btn">
+							<span>
+								$text
+								<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+							</span>
+						</button>
+					</div>
+				</div>
+ </a>
+HDS;
+}
+
 function htmltitle($text) {
 echo <<<HDS
 				<span class="contact100-form-title">

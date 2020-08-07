@@ -1,41 +1,27 @@
 <?php
 require('inc-header.php');
 define('TITLE',"Validació codi");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
+htmltitle(TITLE);
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
 
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
-  //require("connect.php");
-  //require("functions.php");
-//echo $_SESSION['codi'];
 if($_SERVER['REQUEST_METHOD']=='POST'){  
     if ($_POST['codi']==$_SESSION['codi']){
-      echo "Usuari validat<br>\n";
+      echo "<h2>Usuari validat</h2>\n";
       if ($_SESSION['correu']==$conf['correuadmin']){
-        echo "Mode administrador activat<br>\n";
+        echo "<h2>Mode administrador activat</h2>\n";
         $_SESSION['administrator']=TRUE;
       }
       $_SESSION['autenticat']=TRUE;
+      htmlbuttonrightlink("Següent","taula.php");
+      //echo "<a href='taula.php'>Següent</a>";
     } else {
-      echo "Codi Incorrecte<br>\n";
+      echo "<h2 class='error'>Codi Incorrecte</h2>\n";
       $_SESSION['autenticat']=TRUE;
+      htmlbuttonleftlink("Torna enrere","index.php");
     }
-  echo "<a href='taula.php'>Següent</a>";
 } else {
   
 ?>
@@ -45,8 +31,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     Benvolgut/da <?php echo $_SESSION['nom'] ?> introdueixi el codi que rebrà en el correu <?php echo $_SESSION['correu'] ?>
   </p>
   <p>Teniu en compte que el codi pot tardar uns minuts en arribar al correu.</p>
-  <label>Codi: <input type="text" name="codi"></label><br />
-  <input type="submit">
+<!--   <label>Codi: <input type="text" name="codi"></label><br /> -->
+  <?php htmlinputtext('codi','Introdueixi el codi rebut en el correu','Codi enviat per correu:','Escrigui aquí el codi');?>
+  <?php htmlbuttonsubmit('Validar'); ?>
 </form>
 
 <?php
