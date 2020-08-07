@@ -568,6 +568,9 @@ textarea.input100 {
   color: red;
 }
 
+table {
+  border-collapse: collapse;
+}
 
 
 

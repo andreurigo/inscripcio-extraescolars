@@ -1,26 +1,11 @@
 <?php
 require('inc-header.php');
+$title="Selecció extraescolars";
 define('TITLE',$title);
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
-  //require("functions.php");
+htmltitle(TITLE);
 
 if (!$_SESSION['autenticat']){
   redirect_user("index.php");
@@ -52,15 +37,16 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
     $curstriat=$_POST['curs'];
     $curs=$curstriat;
     echo "curs triat: $curstriat <br>";
+    echo "<p>Pulsi sobre una sessió per obtenir més informació</p>\n";
     
     //Obtenim l'id del curs triat ja que el necessitarem
     $cursid=findid($curstriat,'curs',$dbc);
-    echo "cursid: $cursid <br>";
+    if ($conf['debug']=='on') echo "cursid: $cursid <br>";
     
     //Obtenim la llista d'extraescolars ofertades al curs triat
     $extraescolars=getextraescolarsbycourse($cursid,$dbc);
-    echo "extraescolars<br>";
-    print_r($extraescolars);
+    if ($conf['debug']=='on') echo "extraescolars<br>";
+    if ($conf['debug']=='on') print_r($extraescolars);
     
     //Obtenim la llista de sessions per a cada extraescolar
     //Feim un array asociatiu amb l'id de l'extraescolar com a clau
@@ -68,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
     foreach ($extraescolars as $ee){
       $sessions[$ee]=getsessionsbyextraescolar($ee,$dbc);
     }
-    echo "<br>sessions<br>\n";
-    print_r($sessions);
+    if ($conf['debug']=='on') echo "<br>sessions<br>\n";
+    if ($conf['debug']=='on') print_r($sessions);
     
     //Obtenim dia i hora de cada sessió
     //Com que n'hi podria haver més d'una es guarda a una array associatiu
@@ -81,8 +67,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
         $hours[$sessionid]=gethoursbysession($sessionid,$dbc);
       }
     }
-    echo "<br>hores<br>\n";
-    print_r($hours);
+    if ($conf['debug']=='on') echo "<br>hores<br>\n";
+    if ($conf['debug']=='on') print_r($hours);
     
     //Muntam array d'hores i dies per mostrar la taula
     $dies=array();
@@ -116,10 +102,10 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
       } else {
         $dies=$dies_ordenats;
       }
-    echo "<br>dies<br>\n";
-    print_r($dies);
-    echo "<br>hores<br>\n";
-    print_r($hores);
+    if ($conf['debug']=='on') echo "<br>dies<br>\n";
+    if ($conf['debug']=='on') print_r($dies);
+    if ($conf['debug']=='on') echo "<br>hores<br>\n";
+    if ($conf['debug']=='on') print_r($hores);
     
     //TODO: Marcar les sessions de las que ja no queden places
     
@@ -156,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
         $ss=getsessions($dia,$hora,$curs,$dbc);
         foreach ($ss as $s){
           //echo "n: ".$s['nom']." i: ".$s['id']."<br>";
-          echo "<a href='./extraescolar.php/?id={$s['id']}' title='{$s['nomextesc']}'>".$s['nom']."</a><br />";
+          echo "&bull;<a href='./extraescolar.php/?id={$s['id']}' title='{$s['nomextesc']}'>".$s['nom']."</a><br />";
         }
         echo "</td>";
       //}
@@ -168,6 +154,6 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
 <?php
   }
 }
+
+require('inc-html-foot.php');
 ?>
-</body>
-</html>
