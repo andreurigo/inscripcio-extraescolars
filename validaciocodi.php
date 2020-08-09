@@ -14,8 +14,24 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         echo "<h2>Mode administrador activat</h2>\n";
         $_SESSION['administrator']=TRUE;
       }
+      if ($_SESSION['correu']==$conf['correuresponsable']){
+        echo "<h2>Mode responsable activat</h2>\n";
+        $_SESSION['responsable']=TRUE;
+      }
       $_SESSION['autenticat']=TRUE;
-      htmlbuttonrightlink("Següent","taula.php");
+      htmlbuttonrightlink("Selecció extraescolars","taula.php");
+      if ($_SESSION['administrator']){
+        htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Esborrat alumnes","admin-delete-alumnes.php");
+        htmlbuttonrightlink("Importació alumnes","admin-importacio-alumnes.php");
+        htmlbuttonrightlink("Importació extraescolars","admin-importacio-extraescolars.php");
+        htmlbuttonrightlink("Esborrat base de dades","admin-reset-db.php");
+        htmlbuttonrightlink("Finalitzar","logout.php");
+      }
+      if ($_SESSION['responsable']){
+        htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Finalitzar","logout.php");
+      }
       //echo "<a href='taula.php'>Següent</a>";
     } else {
       echo "<h2 class='error'>Codi Incorrecte</h2>\n";

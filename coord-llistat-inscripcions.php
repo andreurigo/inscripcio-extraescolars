@@ -21,7 +21,7 @@ define('TITLE',"Descàrrega inscripcions");
   <h1><?php echo TITLE ?></h1>
 <?php
   //require("functions.php");
-if ($_SESSION['administrator']){ // check admin
+if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
 ?>
 <!--   <table> -->
 <?php  

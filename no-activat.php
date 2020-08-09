@@ -2,29 +2,9 @@
 require('inc-header.php');
 define('TITLE',"Estat procés d'inscripció");
 
+require('inc-html-head.php');
 
-
-?>
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-  <p>
-    
-  <?php
+htmltitle(TITLE);
 
   
   //require("connect.php");
@@ -39,8 +19,6 @@ define('TITLE',"Estat procés d'inscripció");
         if ($faltenminuts<600) echo "<br />Falten $faltenminuts minuts";
       }
   
-
+ 
+require('inc-html-foot.php');
 ?>
-  </p>
-</body>
-</html>
