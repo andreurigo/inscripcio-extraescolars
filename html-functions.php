@@ -34,8 +34,9 @@ echo <<<HDS
 						<div class="contact100-form-bgbtn"></div>
 						<button class="contact100-form-btn">
 							<span>
-								$text
 								<i class="fa fa-long-arrow-left m-l-7" aria-hidden="true"></i>
+								$text
+
 							</span>
 						</button>
 					</div>

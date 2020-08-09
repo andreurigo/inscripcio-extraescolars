@@ -2,6 +2,10 @@
 require('inc-header.php');
 define('TITLE',"Selecció alumne/a");
 
+require('inc-html-head.php');
+
+htmltitle(TITLE);
+
 function studentsfromcursid($cursid,$llinatge1,$dbc) {
   //Imprimeix files de la taula corresponents als estudiants que poden escollir la materia
   //SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INNER JOIN curs AS cu USING (cursid) INNER JOIN classe as cl USING (classeid) WHERE a.llinatge1='MOLINA' AND cu.cursid=2 
@@ -37,25 +41,6 @@ $q="SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INN
     } 
 }
 
-?>
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
   
   function printform(){
   ?>
@@ -63,8 +48,10 @@ $q="SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INN
   <p>
     Introdueixi el llinatge amb majúscules i sense accents.
     </p>
-  <label>1r Llinatge: <input type="text" name="llinatge1"></label><br />
-  <input type="submit">
+      <?php htmlinputtext('llinatge1',"Primer llinatge de l'alumne/a","Primer llinatge de l'alumne/a",'Escrigui aquí el llinatge');?>
+<!--   <label>1r Llinatge: <input type="text" name="llinatge1"></label><br /> 
+  <input type="submit"> -->
+      <?php htmlbuttonsubmit("Cercar"); ?>
 </form>
   <?php
 }
@@ -96,14 +83,18 @@ $llinatge1 = clearstring($_POST['llinatge1']);
       
     //Tancam la taula i el formulari  
       echo "</table>\n";
-        echo "<input type='submit'>";
+          if (!$notfound) {
+            echo "<p>Marqui l'alumne/a i pulsi 'Escollir'</p>";
+            htmlbuttonsubmit("Escollir");
+          }
         echo "</form>";
 //      } //else
 
   if ($notfound) {
 ?>
   <form action="./incidencia-alumne.php" method="GET">
-    <p>No s'ha trobat cap alumne dels següents cursos amb aquest primer llinatge.</p>
+    <p>No s'ha trobat cap alumne amb primer llinatge: <strong><?php echo $llinatge1; ?></strong></p>
+    <p>en el(s) següent(s) curs(os): </p>
     <ul>    
 <?php
     $arraynomcursos=[];
@@ -121,21 +112,20 @@ $llinatge1 = clearstring($_POST['llinatge1']);
 ?>
     </ul>
     <p>Si creu que es tracta d'un error, pot reportar una incidència tot fent servir el botó d'abaix.</p>
-    <input type="submit" value="Reportar incidència">
+    <?php htmlbuttonsubmit("Reportar incidència"); ?>
+<!--     <input type="submit" value="Reportar incidència"> -->
   </form>
   
-    <a href="./taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a>
-  
-<?php    
-      
+<!--     <a href="./taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a> -->
+<?php
+
   }
+        htmlbuttonleftlink("Tornar a la selecció d'extraescolars","taula.php");
   
 } else {
   
 printform();
   
 }
+require('inc-html-foot.php');
 ?>
-  
-</body>
-</html>

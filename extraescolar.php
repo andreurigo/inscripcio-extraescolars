@@ -109,7 +109,7 @@ if (!isset($_GET['id'])){
 <?php
     $disponibles=$places - $ocupades;
     //echo "<p>Núm places: $disponibles ($places - $ocupades)</p>";
-    echo "<p>Núm places disponibles: $disponibles</p>";
+    echo "<p>Nombre de places disponibles: <strong>$disponibles</strong></p>";
     if (count($hores)==1) {
       echo "<p>Hora:</p>";
     } else {
@@ -119,19 +119,18 @@ if (!isset($_GET['id'])){
       echo "<p>{$hora['dia']} - {$hora['hora']}</p>";
     }
 
-?>    
-
-  <a href="./taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a>
-<?php
   if ($disponibles>0) {
+    htmlbuttonrightlink("Seleccionar alumne/a","alumne.php");
 ?>
-  <a href="./alumne.php">Anar a la selecció de l'alumne/a &gt;&gt;</a>
+<!--   <a href="./alumne.php">Anar a la selecció de l'alumne/a &gt;&gt;</a> -->
 <?php
   } else {
 ?>
   <p>No queden places disponibles</p>
+<!--  <a href="./taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a> -->
 <?php
   }
+    htmlbuttonleftlink("Tornar a la selecció d'extraescolars","taula.php");
 require('inc-html-foot.php');
   
 }
