@@ -47,4 +47,7 @@ if ($filename!="index.php" && $filename!="validaciocodi.php" && $filename!="no-a
         redirect_user('no-activat.php');
   }
 }
+if ($filename!='confirma.php') {
+  $_SESSION['prevent2inscription']=FALSE;
+}
 ?>

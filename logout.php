@@ -1,34 +1,23 @@
 <?php
 require('inc-header.php');
-define('TITLE',"logout");
+define('TITLE',"Sessió finalitzada");
+
+require('inc-html-head.php');
+htmltitle(TITLE);
+
 ?>
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
+  
+  <p>
+    Heu finalitzat el procés d'inscripció. Podeu tancar la pestanya o tornar a començar tot espitjant el botó.
+  </p>
 <?php
-  //require("connect.php");
-  //require("functions.php");
+
 
 unset($_SESSION);
 session_destroy();
-  
-  
-?>
 
-  
-</body>
-</html>
+      htmlbuttonleftlink("Tornar a començar","index.php");
+
+require('inc-html-foot.php');
+    
+?>

@@ -1,27 +1,10 @@
 <?php
 require('inc-header.php');
-?>
-<?php
 define('TITLE',"Confirmació Inscripció");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
   if (!$_SESSION['autenticat']){
   redirect_user("index.php");
 }
@@ -40,61 +23,67 @@ if (!isset($_GET['alumneid'])){
 
     
 if ($_SERVER['REQUEST_METHOD']=='POST'){
- 
-$q="INSERT INTO `inscripcions`(`inscid`, `nomresp`, `correuresp`, `alumneid`, `extescid`, `sessionid`, `data`) VALUES (NULL,'{$_SESSION['nom']}','{$_SESSION['correu']}',{$_SESSION['alumneid']},{$_SESSION['extescid']},{$_SESSION['sessionid']},NOW())";
-  echo $q."<br />";
-    $r = mysqli_query($dbc, $q); // Run the query.
-		if ($r){
-        echo "Inscripció feta correctament<br />";
-        //echo "Rebrà un correu de confirmació <br />";
-        //Envia correu de confirmació
-        $to = $_SESSION['correu'];
-        $subject="Inscripció #".mysqli_insert_id($dbc)." Extraescolars {$conf['nomcentre']}"; //mysqli_insert_id($dbc) Torna l'id de l'insert que s'acaba de fer
-           $_SESSION['alumneid']=$_GET['alumneid'];
-           $nomresp=$_SESSION['nom'];
-           $correuresp=$_SESSION['correu'];
-           $alumneid=$_SESSION['alumneid'];
-           $extescid=$_SESSION['extescid'];
-           $sessionid=$_SESSION['sessionid'];
-           $fullinfo=getfullinfofromids($dbc,$sessionid,$extescid,$alumneid);
-           $hores=gethoursbysession($sessionid,$dbc,1);
-           list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
-           if ($conf['debug']=='on') print_r($fullinfo);
-           if ($conf['debug']=='on') echo "<br>\n";
-            $nomcompletalumne=$nomalumne." ".$llinatge1alumne." ".$llinatge2alumne;
-            $cabeceras = "";
-//             $cabeceras  .= 'MIME-Version: 1.0' . "\r\n";
-//             $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-           $message = <<<MSG1
-Heu inscrit a l'alumne/a $nomcompletalumne de $nomclasse
-a l'extraescolar $extraescolarname
-a la sessió $sessionname 
+if (!$_SESSION['prevent2inscription']) {
+    $q="INSERT INTO `inscripcions`(`inscid`, `nomresp`, `correuresp`, `alumneid`, `extescid`, `sessionid`, `data`) VALUES (NULL,'{$_SESSION['nom']}','{$_SESSION['correu']}',{$_SESSION['alumneid']},{$_SESSION['extescid']},{$_SESSION['sessionid']},NOW())";
+      if ($conf['debug']=='on') echo $q."<br />";
+        $r = mysqli_query($dbc, $q); // Run the query.
+        if ($r){
+            echo "<strong>Inscripció feta correctament</strong><br />";
+            $_SESSION['prevent2inscription']=TRUE;
+            //echo "Rebrà un correu de confirmació <br />";
+            //Envia correu de confirmació
+            $to = $_SESSION['correu'];
+            $subject="Inscripció #".mysqli_insert_id($dbc)." Extraescolars {$conf['nomcentre']}"; //mysqli_insert_id($dbc) Torna l'id de l'insert que s'acaba de fer
+               $_SESSION['alumneid']=$_GET['alumneid'];
+               $nomresp=$_SESSION['nom'];
+               $correuresp=$_SESSION['correu'];
+               $alumneid=$_SESSION['alumneid'];
+               $extescid=$_SESSION['extescid'];
+               $sessionid=$_SESSION['sessionid'];
+               $fullinfo=getfullinfofromids($dbc,$sessionid,$extescid,$alumneid);
+               $hores=gethoursbysession($sessionid,$dbc,1);
+               list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
+               if ($conf['debug']=='on') print_r($fullinfo);
+               if ($conf['debug']=='on') echo "<br>\n";
+                $nomcompletalumne=$nomalumne." ".$llinatge1alumne." ".$llinatge2alumne;
+                $cabeceras = "";
+    //             $cabeceras  .= 'MIME-Version: 1.0' . "\r\n";
+    //             $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+               $message = <<<MSG1
+    Heu inscrit a l'alumne/a $nomcompletalumne
+    de $nomclasse
+    a l'extraescolar $extraescolarname
+    a la sessió $sessionname 
 MSG1;
-            $n=count($hores);
-            $message .= "(";
-            for ($i=0;$i<($n-1);$i++) {
-              $message .= "{$hores[$i]['dia']}-{$hores[$i]['hora']}, ";
-            }
-            $message .= "{$hores[$i]['dia']}-{$hores[$i]['hora']})\n";
-            $message .= <<<MSG2
-La persona que ha fet la inscripció és $nomresp
-amb correu $correuresp
+                $n=count($hores);
+                $message .= "(";
+                for ($i=0;$i<($n-1);$i++) {
+                  $message .= "{$hores[$i]['dia']}-{$hores[$i]['hora']}, ";
+                }
+                $message .= "{$hores[$i]['dia']}-{$hores[$i]['hora']})\n";
+                $message .= <<<MSG2
+    La persona que ha fet la inscripció és $nomresp
+    amb correu $correuresp
 MSG2;
-          echo $subject."<br />";
-          echo nl2br($message);
-          echo $subject."<br />";
-          $rr=mail($to, $subject, $message, $cabeceras);
-          if ($rr) {
-    echo "S'ha enviat un correu de confirmació que pot tardar uns minuts a arribar.<br>\n";
-  } else {
-    echo "Hi ha hagut un problema tot enviant el correu de confirmació de la inscripció. Es recomana que faci una captura de pantalla";
-  }
-    } else {
-      echo "Error: ".mysqli_error($dbc);
-    }
-      echo "<a href=\"./taula.php\">&lt;&lt; Tornar a la selecció d'extraescolars</a>";
-  
-} else {
+              echo $subject."<br />";
+              echo nl2br($message);
+              echo "<br />";
+              $rr=mail($to, $subject, $message, $cabeceras);
+              if ($rr) {
+        echo "<strong>S'ha enviat un correu de confirmació que pot tardar uns minuts a arribar.</strong><br>\n";
+      } else {
+        echo "<strong>Hi ha hagut un problema tot enviant el correu de confirmació de la inscripció. Es recomana que faci una captura de pantalla</strong>";
+      }
+        } else {
+          echo "Error: ".mysqli_error($dbc);
+        }
+          //echo "<a href=\"./taula.php\">&lt;&lt; Tornar a la selecció d'extraescolars</a>";
+} else {  //if (!$_SESSION['prevent2inscription'])
+  echo "<h2>Ja heu fet la inscripció. Per favor no recarregueu la pàgina.</h2>";
+}
+  htmlbuttonleftlink("Tornar a la selecció d'extraescolars","taula.php");
+  htmlbuttonrightlink("Finalitzar","logout.php");
+} else { //if ($_SERVER['REQUEST_METHOD']=='POST')
 
  echo "<h2>Dades inscripció</h2>";
  $_SESSION['alumneid']=$_GET['alumneid'];
@@ -172,20 +161,22 @@ HEREDOC;
    <p>
    Si estau d'acord, feis clic al botó 'confirmar'.
    </p>
+   <p>Si no, tornau a la selecció d'extraescolars</p>
 HEREDOC2;
   
 
  
  echo "<form action='' method='POST'>";
- echo "<input type='submit' value='Confirmar'>";
+ //echo "<input type='submit' value='Confirmar'>";
+ htmlbuttonsubmit("Confirmar");
  echo "</form>";
 } else { //if (!$flagcoincidencia) {
  echo "No pot inscriure aquest alumne a aquesta sessió perquè li coincideixen les hores amb inscripcions previes<br>\n";
- echo "<a href=\"./taula.php\">&lt;&lt; Tornar a la selecció d'extraescolars</a>";
+ //echo "<a href=\"./taula.php\">&lt;&lt; Tornar a la selecció d'extraescolars</a>";
 }
+  htmlbuttonleftlink("Tornar a la selecció d'extraescolars","taula.php");
   
 }
+
+require('inc-html-foot.php');
 ?>
-  
-</body>
-</html>
