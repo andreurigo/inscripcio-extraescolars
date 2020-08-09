@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
         $ss=getsessions($dia,$hora,$curs,$dbc);
         foreach ($ss as $s){
           //echo "n: ".$s['nom']." i: ".$s['id']."<br>";
-          echo "&bull;<a href='./extraescolar.php/?id={$s['id']}' title='{$s['nomextesc']}'>".$s['nom']."</a><br />";
+          echo "&bull;<a href='extraescolar.php?id={$s['id']}' title='{$s['nomextesc']}'>".$s['nom']."</a><br />";
         }
         echo "</td>";
       //}
