@@ -1,35 +1,21 @@
 <?php
+
 require('inc-header.php');
-define('TITLE',"Confirmació extraescolar");
-?>
-<!doctype html>
+define('TITLE',"Informació extraescolar");
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+ if (!$_SESSION['autenticat']){
+    redirect_user("index.php");
+ }
 
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
-  //require("connect.php");
-  //require("functions.php");
-//echo $_SESSION['codi'];
-if (!$_SESSION['autenticat']){
-  redirect_user("index.php");
-}
 if (!isset($_GET['id'])){
-  //echo "get no definit";
+//    //echo "get no definit";
   redirect_user("taula.php");  
-}
+} else {
+
     $_SESSION['sessionid']=$_GET['id'];
     //Informació de la sessio. $nomsessio, $extescid, $places
     $q="SELECT `nom`,`extescid`,`places` FROM `sessions` WHERE `sessionid`={$_GET['id']}";
@@ -122,25 +108,31 @@ if (!isset($_GET['id'])){
   </ul>
 <?php
     $disponibles=$places - $ocupades;
-    echo "<p>Núm places: $disponibles ($places - $ocupades)</p>";
-    echo "<p>Hora:</p>";
+    //echo "<p>Núm places: $disponibles ($places - $ocupades)</p>";
+    echo "<p>Núm places disponibles: $disponibles</p>";
+    if (count($hores)==1) {
+      echo "<p>Hora:</p>";
+    } else {
+      echo "<p>Hores:</p>";    
+    }
     foreach ($hores as $hora){
       echo "<p>{$hora['dia']} - {$hora['hora']}</p>";
     }
+
 ?>    
 
-  <a href="../taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a>
+  <a href="./taula.php">&lt;&lt; Tornar a la selecció d'extraescolars</a>
 <?php
   if ($disponibles>0) {
 ?>
-  <a href="../alumne.php">Anar a la selecció de l'alumne/a &gt;&gt;</a>
+  <a href="./alumne.php">Anar a la selecció de l'alumne/a &gt;&gt;</a>
 <?php
   } else {
 ?>
   <p>No queden places disponibles</p>
 <?php
   }
-?>
+require('inc-html-foot.php');
   
-</body>
-</html>
+}
+?>
