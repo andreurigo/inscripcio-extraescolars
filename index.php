@@ -3,11 +3,8 @@ require('inc-header.php');
 $title="Inscripció Activitats Extraescolars<br />{$conf['nomcentre']}<br />{$conf['cursactual']}";
 define('TITLE',$title);
 
-
 require('inc-html-head.php');
-
 htmltitle(TITLE);
-
 ?>
 
 

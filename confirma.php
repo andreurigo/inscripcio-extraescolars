@@ -24,7 +24,9 @@ if (!isset($_GET['alumneid'])){
     
 if ($_SERVER['REQUEST_METHOD']=='POST'){
 if (!$_SESSION['prevent2inscription']) {
-    $q="INSERT INTO `inscripcions`(`inscid`, `nomresp`, `correuresp`, `alumneid`, `extescid`, `sessionid`, `data`) VALUES (NULL,'{$_SESSION['nom']}','{$_SESSION['correu']}',{$_SESSION['alumneid']},{$_SESSION['extescid']},{$_SESSION['sessionid']},NOW())";
+    $timeshift=$conf['correcciohoraservidor']/3600; //passam de segons a hores
+    if ($conf['debug']=='on') echo "timeshift: $timeshift<br />\n";
+    $q="INSERT INTO `inscripcions`(`inscid`, `nomresp`, `correuresp`, `alumneid`, `extescid`, `sessionid`, `data`) VALUES (NULL,'{$_SESSION['nom']}','{$_SESSION['correu']}',{$_SESSION['alumneid']},{$_SESSION['extescid']},{$_SESSION['sessionid']},DATE_ADD(NOW(), INTERVAL $timeshift HOUR))";
       if ($conf['debug']=='on') echo $q."<br />";
         $r = mysqli_query($dbc, $q); // Run the query.
         if ($r){

@@ -1,30 +1,15 @@
 <?php
 require('inc-header.php');
-define('TITLE',"Descàrrega inscripcions");
-?>
-<!doctype html>
+$title="Descàrrega llistat inscripcions";
+define('TITLE',$title);
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
   //require("functions.php");
 if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
-?>
-<!--   <table> -->
-<?php  
+
+  
    if(!file_exists('output/inscripcions.csv')) {
      touch ('output/inscripcions.csv');
      if ($conf['debug']=='on') echo "File did not exist, so it has been created<br>\n";
@@ -33,7 +18,7 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
    }
   // The first write is without append option in order to delete the file
 //  file_put_contents('output/inscripcions.csv',"inscid;nomresp;correuresp;alumneid;exescid;sessionid;data".PHP_EOL,LOCK_EX);
-  file_put_contents('output/inscripcions.csv',"Extraescolar;Sessio;Nom;Llinatge1;Llinatge2;Classe".PHP_EOL,LOCK_EX);
+  file_put_contents('output/inscripcions.csv',"Extraescolar;Sessio;Nom;Llinatge1;Llinatge2;Classe;Nom responsable;Correu Responsable;Data inscripció".PHP_EOL,LOCK_EX);
   
   $q="SELECT * FROM `inscripcions`";
   $rr = mysqli_query($dbc, $q);
@@ -49,7 +34,8 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
     
  $fullinfo=getfullinfofromids($dbc,$row['sessionid'],$row['extescid'],$row['alumneid']);
  list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
- $line=$extraescolarname."; ".$sessionname."; ".$nomalumne."; ".$llinatge1alumne."; ".trim($llinatge2alumne)."; ".$nomclasse;
+ //Línea de dades
+ $line=$extraescolarname."; ".$sessionname."; ".$nomalumne."; ".$llinatge1alumne."; ".trim($llinatge2alumne)."; ".$nomclasse."; ".$row['nomresp']."; ".$row['correuresp']."; ".$row['data'];
 
 //      // Obtenim el nom de l'extraescolar
 //      $r=getfieldfromid($dbc,'extraescolars','extescid',$row['extescid'],'nom');
@@ -97,10 +83,9 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
   echo "Error: ".mysqli_error($dbc)."<br>\n";
 }
 ?>
-<a href="output/inscripcions.csv">Descarrega fitxer</a>
-<!--   </table> -->
-  
-<?php  
+<!-- <a href="output/inscripcions.csv">Descarrega fitxer</a> -->
+<?php
+  htmlbuttontlink("Descarrega fitxer","output/inscripcions.csv");
 } else { //check admin
 ?>
   <p>
@@ -108,7 +93,9 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
   </p>
 <?php
 } //check admin
-?>
+
+// El botó de tornar al menú s'ha de veure en tot moment
+htmlbuttonleftlink("Tornar al menú","validaciocodi.php"); 
   
-</body>
-</html>
+require('inc-html-foot.php');
+?>
