@@ -1,25 +1,9 @@
 <?php
 require('inc-header.php');
 define('TITLE',"Esborrat alumnes");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
+require('inc-html-head.php');
+htmltitle(TITLE);
   //require("functions.php");
 if ($_SESSION['administrator']){ // check admin
   if($_SERVER['REQUEST_METHOD']=='POST'){  // check post
@@ -33,24 +17,32 @@ if ($_SESSION['administrator']){ // check admin
 ?>
 
 <p>
-ATENCIÓ: Si espitjau confirmar, esborrareu la taula d'alumnes. Això només s'ha de fer abans de fer una importació per a començar el nou curs. Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas. 
-</p>
+ATENCIÓ:</p>
+<ul> 
+ <li>- Si espitjau confirmar, esborrareu la taula d'alumnes.</li> 
+ <li>- Això només s'ha de fer abans de fer una importació per a començar el nou curs.</li>
+ <li>- Abans d'esborrar la taula d'alumnes, s'han d'esborrar les inscripcions</li>
+ <li>- Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas.</li> 
+</ul>
 
 <form action="" method="POST">
   <input type="hidden" name='confirmid' value='x1123y'>
-  <input type="submit" value="Confirmar">
+<!--   <input type="submit" value="Confirmar"> -->
+  <?php 
+  htmlbuttonsubmit("Confirmar"); 
+  ?>
 </form>
-  
 <?php
+      htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
   } // check post
 } else { //check admin
 ?>
-  <p>
+  <p class="error">
     No estau autoritzats a veure aquesta pàgina.
   </p>
 <?php
 } //check admin
+
+require('inc-html-foot.php');
 ?>
   
-</body>
-</html>

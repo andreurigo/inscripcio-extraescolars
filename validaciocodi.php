@@ -8,10 +8,10 @@ htmltitle(TITLE);
 
 function menuadministrador() {
         htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
-        htmlbuttonrightlink("Esborrat alumnes","admin-delete-alumnes.php");
         htmlbuttonrightlink("Importació alumnes","admin-importacio-alumnes.php");
         htmlbuttonrightlink("Importació extraescolars","admin-importacio-extraescolars.php");
         htmlbuttonrightlink("Esborrat base de dades","admin-reset-db.php");
+        htmlbuttonrightlink("Esborrat alumnes","admin-delete-alumnes.php");
         htmlbuttonrightlink("Finalitzar","logout.php");  
 }
 
