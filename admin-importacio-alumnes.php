@@ -20,34 +20,45 @@ define('TITLE',"Importació alumnes");
   <!-- <script src="js/scripts.js"></script> -->
   <h1><?php echo TITLE;?></h1>
 <?php
-
-  //require("functions.php");  
-  //require("connect.php");
-  $data=file("alumnes.csv");
-  foreach($data as $line) {
-    //echo $line."<br>\n";
-    $fields=explode(",",$line);
-    $curs=$fields[1];
-    $classe=$fields[2];
-    //echo "curs:".$curs."<br>\n";
-    $cursid=findid($curs,"curs",$dbc);
-    $classeid=findid($classe,"classe",$dbc);
-    $nom=trim($fields[3]);
-    $llinatge1=trim($fields[4]);
-    $llinatge2=trim($fields[5]);
-    //echo "cursid:".$cursid."<br>\n";
-    //echo "classeid:".$classeid."<br>\n";
-    // INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6])
-    $q = "INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES (NULL,'$nom','$llinatge1','$llinatge2','$cursid','$classeid')";
-		$r = mysqli_query($dbc, $q); // Run the query.
-		if ($r){
-      echo "$line instertada a la base de dades<br>";
-    } else {
-      echo "Error: ".mysqli_error($dbc);
+if ($_SERVER['REQUEST_METHOD']=='POST') {
+    //require("functions.php");  
+    //require("connect.php");
+    $data=file("alumnes.csv");
+    foreach($data as $line) {
+      //echo $line."<br>\n";
+      $fields=explode(",",$line);
+      $curs=$fields[1];
+      $classe=$fields[2];
+      //echo "curs:".$curs."<br>\n";
+      $cursid=findid($curs,"curs",$dbc);
+      $classeid=findid($classe,"classe",$dbc);
+      $nom=trim($fields[3]);
+      $llinatge1=trim($fields[4]);
+      $llinatge2=trim($fields[5]);
+      //echo "cursid:".$cursid."<br>\n";
+      //echo "classeid:".$classeid."<br>\n";
+      // INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES ([value-1],[value-2],[value-3],[value-4],[value-5],[value-6])
+      $q = "INSERT INTO `alumnes`(`alumneid`, `nom`, `llinatge1`, `llinatge2`, `cursid`, `classeid`) VALUES (NULL,'$nom','$llinatge1','$llinatge2','$cursid','$classeid')";
+      $r = mysqli_query($dbc, $q); // Run the query.
+      if ($r){
+        echo "$line instertada a la base de dades<br>";
+      } else {
+        echo "Error: ".mysqli_error($dbc);
+      }
     }
-  }
-
+} else { //($_SERVER['REQUEST_METHOD']=='POST')
+?>
+    <form enctype="multipart/form-data" action="admin-importacio-alumnes.php" method="POST">
+      <input type="hidden" name="MAX_FILE_SIZE" value="20971520">
+      <fieldset><legend>Descarregau la plantilla i pujau un fitxer cvs de fins a 20MB:</legend>
+      <p><strong>File:</strong> <input type="file" name="upload"></p>
+      </fieldset>
+      <div align="center"><input type="submit" name="submit" value="Submit"></div>
+    </form>
+<?php  
+  //Plantilla
   
+} //else ($_SERVER['REQUEST_METHOD']=='POST')  
 ?>
 </body>
 </html>
