@@ -1,29 +1,35 @@
 <?php
 require('inc-header.php');
 define('TITLE',"Importació alumnes");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE;?></title>
-  <meta name="description" content="<?php echo TITLE;?>">
-  <meta name="author" content="Andreu Rigo">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE;?></h1>
-<?php
+if ($_SESSION['administrator']){ // check admin
 if ($_SERVER['REQUEST_METHOD']=='POST') {
-    //require("functions.php");  
-    //require("connect.php");
-    $data=file("alumnes.csv");
+    //Processam el fitxer pujat
+
+	// Check for an uploaded file:
+	if (isset($_FILES['upload'])) {
+		// Validate the type. Should be csv.
+		$allowed = ['text/csv','application/vnd.ms-excel'];
+		if (in_array($_FILES['upload']['type'], $allowed)) {
+
+			// Move the file over.
+			//if (move_uploaded_file ($_FILES['upload']['tmp_name'], "./input/{$_FILES['upload']['name']}")) {
+      if (move_uploaded_file ($_FILES['upload']['tmp_name'], "./input/alumnes.csv")) { //El fitxer existent serà substituit
+				echo '<p><em>Fitxer pujat correctament!</em></p>';
+			} // End of move... IF.
+
+		} else { // Invalid type.
+			echo "<p class='error'>Només podeu pujar fitxers CSV. Heu pujat un fitxer {$_FILES['upload']['type']}</p>";
+		}
+
+	} // End of isset($_FILES['upload']) IF.  
+  //die(); //Per depurar. S'ha de treure
+    //Importació de dades propiament
+    $data=file("./input/alumnes.csv");
     foreach($data as $line) {
       //echo $line."<br>\n";
       $fields=explode(",",$line);
@@ -46,19 +52,28 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
         echo "Error: ".mysqli_error($dbc);
       }
     }
+    //Final importació de dades
 } else { //($_SERVER['REQUEST_METHOD']=='POST')
 ?>
     <form enctype="multipart/form-data" action="admin-importacio-alumnes.php" method="POST">
       <input type="hidden" name="MAX_FILE_SIZE" value="20971520">
-      <fieldset><legend>Descarregau la plantilla i pujau un fitxer cvs de fins a 20MB:</legend>
+      <p>Descarregau la plantilla i pujau un fitxer cvs de fins a 20MB:</p>
       <p><strong>File:</strong> <input type="file" name="upload"></p>
-      </fieldset>
-      <div align="center"><input type="submit" name="submit" value="Submit"></div>
+      
+<!--       <div align="center"><input type="submit" name="submit" value="Submit"></div> -->
+      <?php htmlbuttonsubmit("Pujar i processar fitxer"); ?>
     </form>
 <?php  
   //Plantilla
-  
+  htmlbuttontlink("Descàrrega plantilla","templates/plantilla-alumnes.csv");
 } //else ($_SERVER['REQUEST_METHOD']=='POST')  
+  } else { //check admin
 ?>
-</body>
-</html>
+  <p class="error">
+    No estau autoritzats a veure aquesta pàgina.
+  </p>
+<?php
+  } // check admin 
+  htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
+  require('inc-html-foot.php');
+  ?>
