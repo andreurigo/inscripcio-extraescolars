@@ -36,6 +36,13 @@ if ($conf['debug']=='on'&& isset($_SESSION)) echo '$_SESSION<br>'.nl2br(print_r(
 if(file_exists('output/inscripcions.csv')) {
  unlink ('output/inscripcions.csv');
 }
+// També per protecció de dades esborram els d'importació si existeixen
+if(file_exists('input/alumnes.csv')) {
+ unlink ('input/alumnes.csv');
+}
+if(file_exists('input/extraescolars.csv')) {
+ unlink ('input/extraescolars.csv');
+}
 // Si l'aplicació no està activada redirigim a una altra pàgina (amb l'excepció de la de login i confirmació)
 $filepatharray = explode("/",$_SERVER['PHP_SELF']);
 $filename=$filepatharray[(count($filepatharray)-1)];

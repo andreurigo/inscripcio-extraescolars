@@ -1,29 +1,34 @@
 <?php
 require('inc-header.php');
 define('TITLE',"Importació Extraescolars");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE;?></title>
-  <meta name="description" content="<?php echo TITLE;?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE;?></h1>
-<?php
-
-  //require("functions.php"); 
   if ($_SESSION['administrator']){ // check admin
-    $data=file("extraescolars.csv");
+if ($_SERVER['REQUEST_METHOD']=='POST') {
+    //Processam el fitxer pujat
+
+	// Check for an uploaded file:
+	if (isset($_FILES['upload'])) {
+		// Validate the type. Should be csv.
+		$allowed = ['text/csv','application/vnd.ms-excel'];
+		if (in_array($_FILES['upload']['type'], $allowed)) {
+
+			// Move the file over.
+			//if (move_uploaded_file ($_FILES['upload']['tmp_name'], "./input/{$_FILES['upload']['name']}")) {
+      if (move_uploaded_file ($_FILES['upload']['tmp_name'], "./input/extraescolars.csv")) { //El fitxer existent serà substituit
+				echo '<p><em>Fitxer pujat correctament!</em></p>';
+			} // End of move... IF.
+
+		} else { // Invalid type.
+			echo "<p class='error'>Només podeu pujar fitxers CSV. Heu pujat un fitxer {$_FILES['upload']['type']}</p>";
+		}
+
+	} // End of isset($_FILES['upload']) IF. 
+    //Inici Codi importació
+    //die(); //Per depurar. Pensar a llevar-ho
+    $data=file("./input/extraescolars.csv");
     $linecount=1;
     foreach($data as $line) {
       if ($linecount!=1) { // skip first line
@@ -113,7 +118,21 @@ define('TITLE',"Importació Extraescolars");
       } // skip first line
       $linecount++;
     }
-
+    //Final codi importació
+} else { //($_SERVER['REQUEST_METHOD']=='POST')
+?>
+    <form enctype="multipart/form-data" action="admin-importacio-extraescolars.php" method="POST">
+      <input type="hidden" name="MAX_FILE_SIZE" value="20971520">
+      <p>Descarregau la plantilla i pujau un fitxer cvs de fins a 20MB:</p>
+      <p><strong>File:</strong> <input type="file" name="upload"></p>
+      
+<!--       <div align="center"><input type="submit" name="submit" value="Submit"></div> -->
+      <?php htmlbuttonsubmit("Pujar i processar fitxer"); ?>
+    </form>
+<?php  
+  //Plantilla
+  htmlbuttontlink("Descàrrega plantilla","templates/plantilla-extraescolars.csv");
+} //else ($_SERVER['REQUEST_METHOD']=='POST') 
   } else { //check admin
 ?>
   <p>
@@ -121,6 +140,6 @@ define('TITLE',"Importació Extraescolars");
   </p>
 <?php
   } // check admin 
+  htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
+require('inc-html-foot.php');
 ?>
-</body>
-</html>
