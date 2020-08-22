@@ -1,25 +1,10 @@
 <?php
 require('inc-header.php');
 define('TITLE',"Reset year");
-?>
-<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+require('inc-html-head.php');
+htmltitle(TITLE);
 
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
   //require("functions.php");
 if ($_SESSION['administrator']){ // check admin
   if($_SERVER['REQUEST_METHOD']=='POST'){  // check post
@@ -41,17 +26,27 @@ if ($_SESSION['administrator']){ // check admin
   
 ?>
 
-<p>
-ATENCIÓ: Si espitjau confirmar, esborrareu totes les dades de l'aplicació. Això només s'ha de fer abans de fer una importació per a començar el nou curs. Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas. 
+<p class="error">
+ATENCIÓ:
 </p>
+<ol>
+  <li>- Si espitjau confirmar, esborrareu les dades d'inscripcions, extraescolars i sessions.</li> 
+  <li>- Això només s'ha de fer abans de fer una importació per a començar el nou curs.</li> 
+  <li>- Abans de dur a terme aquesta acció es recomana fer una còpia de la base de dades amb phpmyadmin per si de cas.</li>
+  <li>- Teniu present que les dades dels alumnes s'esborren des de la pàgina corresponent.</li>
+</ol>
 
 <form action="" method="POST">
   <input type="hidden" name='confirmid' value='x1123y'>
-  <input type="submit" value="Confirmar">
+<!--   <input type="submit" value="Confirmar"> -->
+  <?php 
+  htmlbuttonsubmit("Confirmar"); 
+  ?>
 </form>
   
 <?php
   } // check post
+        htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
 } else { //check admin
 ?>
   <p>
@@ -59,7 +54,5 @@ ATENCIÓ: Si espitjau confirmar, esborrareu totes les dades de l'aplicació. Aix
   </p>
 <?php
 } //check admin
+  require('inc-html-foot.php');
 ?>
-  
-</body>
-</html>
