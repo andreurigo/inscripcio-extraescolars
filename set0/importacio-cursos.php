@@ -16,6 +16,7 @@
   <!-- <script src="js/scripts.js"></script> -->
   <h1>Importació classes</h1>
 <?php
+if ($_SESSION['administrator']){ // check admin
    $cursos=["PRIMER DE PRIMARIA","SEGON DE PRIMARIA","TERCER DE PRIMARIA","QUART DE PRIMARIA","CINQUE DE PRIMARIA","SISE DE PRIMARIA"];
   require("connect.php");
 // INSERT INTO `curs`(`cursid`, `nom`) VALUES (NULL,"test")
@@ -28,6 +29,14 @@
       echo "Error: ".mysqli_error($dbc);
     }
   }
+
+} else { //check admin
+?>
+  <p class="error">
+    No estau autoritzats a veure aquesta pàgina.
+  </p>
+<?php
+} //check admin
   
 ?>
 </body>
