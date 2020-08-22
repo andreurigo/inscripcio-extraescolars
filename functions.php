@@ -96,7 +96,7 @@
     }    
   }
 
-  //Queries que no tornen informació. Per ex. INSERT
+  //Queries que no tornen informació. Per ex. INSERT o UPDATE
   function executequery($dbc,$q) {
     $r = mysqli_query($dbc, $q);
     if ($r){

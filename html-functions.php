@@ -10,6 +10,16 @@ echo <<<HDS
 HDS;
 }
 
+function htmlinputtextwithvalue($nom,$validacio,$etiqueta,$placeholder,$value) {
+echo <<<HDS
+				<div class="wrap-input100 validate-input" data-validate="$validacio">
+					<span class="label-input100">$etiqueta</span>
+					<input class="input100" type="text" name="$nom" placeholder="$placeholder" value="$value">
+					<span class="focus-input100"></span>
+				</div>
+HDS;
+}
+
 function htmlbuttonsubmit($text) {
 echo <<<HDS
 				<div class="container-contact100-form-btn">
