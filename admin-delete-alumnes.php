@@ -33,8 +33,8 @@ ATENCIÓ:</p>
   ?>
 </form>
 <?php
-      htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
   } // check post
+        htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
 } else { //check admin
 ?>
   <p class="error">
