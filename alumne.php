@@ -26,11 +26,11 @@ $q="SELECT a.nom,a.llinatge1,a.llinatge2,cl.nom,a.alumneid FROM alumnes as a INN
               $nom = $row[0];
               $llinatge1 = $row[1];
               $llinatge2 = $row[2];
-              echo "$nom $llinatge1 $llinatge2";
+              echo "&nbsp;$nom $llinatge1 $llinatge2&nbsp;";
               echo "</td>";
               echo "<td>";
               $classe = $row[3];
-              echo "$classe";
+              echo "&nbsp;$classe&nbsp;";
               echo "</td>";      
               echo "</tr>\n";
             }

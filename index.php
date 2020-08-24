@@ -19,7 +19,11 @@ $to = $_POST['correu'];
 $subject = "Codi Inscripció";
 $codi=rand(10000,99999);
 $body = "Dear ".$_POST['nom']." aquest és el codi: ".$codi;
-mail($to, $subject, $body);
+$r=mail($to, $subject, $body);
+if (!$r) {
+  echo "<p class='error'>No s'ha pogut enviar el correu</p>";
+  die();
+}
   
   $_SESSION['nom']=$_POST['nom'];
   $_SESSION['correu']=$_POST['correu'];

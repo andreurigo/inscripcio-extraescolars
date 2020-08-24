@@ -47,7 +47,7 @@ if (!$_SESSION['prevent2inscription']) {
                list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
                if ($conf['debug']=='on') print_r($fullinfo);
                if ($conf['debug']=='on') echo "<br>\n";
-                $nomcompletalumne=$nomalumne." ".$llinatge1alumne." ".$llinatge2alumne;
+                $nomcompletalumne=$nomalumne." ".$llinatge1alumne." ".trim($llinatge2alumne);
                 $cabeceras = "";
     //             $cabeceras  .= 'MIME-Version: 1.0' . "\r\n";
     //             $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
@@ -97,6 +97,7 @@ MSG2;
 
  $fullinfo=getfullinfofromids($dbc,$sessionid,$extescid,$alumneid);
  list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
+ $llinatge2alumne=trim($llinatge2alumne);
  if ($conf['debug']=='on') print_r($fullinfo);
  if ($conf['debug']=='on') echo "<br>\n";
   $nomcompletalumne=$nomalumne." ".$llinatge1alumne." ".$llinatge2alumne;
