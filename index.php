@@ -1,4 +1,5 @@
 <?php
+
 require('inc-header.php');
 $title="Inscripció Activitats Extraescolars<br />{$conf['nomcentre']}<br />{$conf['cursactual']}";
 define('TITLE',$title);
@@ -16,19 +17,24 @@ if ($_SERVER['REQUEST_METHOD']=='POST'){
 if (!empty($_POST['nom']) && !empty($_POST['correu'])) {
   
 $to = $_POST['correu'];
-$subject = "Codi Inscripció";
+$subject = "Codi Inscripcio Extraescolars";
 $codi=rand(10000,99999);
 $body = "Dear ".$_POST['nom']." aquest és el codi: ".$codi;
-$r=mail($to, $subject, $body);
-if (!$r) {
-  echo "<p class='error'>No s'ha pogut enviar el correu</p>";
-  die();
-}
+// Enviament amb la funció mail() de PHP. No funciona a certs hostings
+//$r=mail($to, $subject, $body);
+// if (!$r) {
+//   echo "<p class='error'>No s'ha pogut enviar el correu</p>";
+//   die();
+// }
+
+// Enviament per PHPMailer. Més robust i flexible (permet emprar SMTP fàcilment)
+  sendmailsmtp($to,$_POST['nom'],$subject,$body,$body);  
   
   $_SESSION['nom']=$_POST['nom'];
   $_SESSION['correu']=$_POST['correu'];
   $_SESSION['codi']=$codi;
   
+
   redirect_user("validaciocodi.php");
 
 } else {
