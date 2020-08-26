@@ -35,7 +35,7 @@ if (!$_SESSION['prevent2inscription']) {
             //echo "Rebrà un correu de confirmació <br />";
             //Envia correu de confirmació
             $to = $_SESSION['correu'];
-            $subject="Inscripció #".mysqli_insert_id($dbc)." Extraescolars {$conf['nomcentre']}"; //mysqli_insert_id($dbc) Torna l'id de l'insert que s'acaba de fer
+            $subject="Inscripcio #".mysqli_insert_id($dbc)." Extraescolars {$conf['nomcentre']}"; //mysqli_insert_id($dbc) Torna l'id de l'insert que s'acaba de fer
                $_SESSION['alumneid']=$_GET['alumneid'];
                $nomresp=$_SESSION['nom'];
                $correuresp=$_SESSION['correu'];
@@ -70,7 +70,8 @@ MSG2;
               echo $subject."<br />";
               echo nl2br($message);
               echo "<br />";
-              $rr=mail($to, $subject, $message, $cabeceras);
+              //$rr=mail($to, $subject, $message, $cabeceras);
+              $rr=sendmailsmtp($to,$_SESSION['nom'],$subject,$message,$message);
               if ($rr) {
         echo "<strong>S'ha enviat un correu de confirmació que pot tardar uns minuts a arribar.</strong><br>\n";
       } else {

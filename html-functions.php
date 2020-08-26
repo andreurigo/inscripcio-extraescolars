@@ -1,5 +1,16 @@
 <?php
 
+function htmltextarea($nom,$validacio,$message,$placeholder) {
+echo <<<HDS
+				<div class="wrap-input100 validate-input" data-validate = '$validacio'>
+					<span class="label-input100">$message</span>
+					<textarea class="input100" name='$nom' placeholder='$placeholder'></textarea>
+					<span class="focus-input100"></span>
+				</div>
+HDS;
+}
+
+
 function htmlinputtext($nom,$validacio,$etiqueta,$placeholder) {
 echo <<<HDS
 				<div class="wrap-input100 validate-input" data-validate="$validacio">

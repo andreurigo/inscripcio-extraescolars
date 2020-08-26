@@ -11,7 +11,7 @@ require './PHPMailer/src/SMTP.php';
   define("DEBUG",FALSE);
 
 //Enviament de correus per SMTP tot fent server PHPMailer
-function sendmailsmtp($to,$nameto,$subject,$bodyhtml,$bodytext) {
+function sendmailsmtp($to,$nameto,$subject,$bodyhtml,$bodytext,$bcc="") {
 // CONF
    require('emailconf.php');
 // CONF
@@ -32,8 +32,11 @@ try {
     $mail->addAddress($to, $nameto);     // Add a recipient
     //$mail->addAddress('ellen@example.com');               // Name is optional
     //$mail->addReplyTo('info@example.com', 'Information');
-    //$mail->addCC('cc@example.com');
+    if(!empty($bcc)){
+       $mail->addBCC($bcc);
+    }
     //$mail->addBCC('bcc@example.com');
+    //$mail->addCC($bcc);
 
     // Attachments
     //$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
@@ -46,9 +49,11 @@ try {
     $mail->AltBody = $bodytext;
 
     $mail->send();
-    echo "<p>S'ha enviat el missatge de correu</p>";
+    if (DEBUG) echo "<p>S'ha enviat el missatge de correu</p>";
+    return TRUE;
 } catch (Exception $e) {
-    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    if (DEBUG) echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    return FALSE;
 }
 }
 

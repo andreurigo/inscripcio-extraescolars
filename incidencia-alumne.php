@@ -2,29 +2,8 @@
 require('inc-header.php');
 define('TITLE',"Incidència Alumnat");
 
-
-
-?>
-<!doctype html>
-
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-
-  <title><?php echo TITLE ?></title>
-  <meta name="description" content="<?php echo TITLE ?>">
-  <meta name="author" content="Andreu Rigo">
-
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
-
-</head>
-
-<body>
-  <!-- <script src="js/scripts.js"></script> -->
-  <h1><?php echo TITLE ?></h1>
-<?php
-  //require("connect.php");
-  //require("functions.php");
+require('inc-html-head.php');
+htmltitle(TITLE);
     
 function infoincidencia(){
   $string = "<p>Nom de l'usuari: {$_SESSION['nom']}</p>\n";
@@ -54,43 +33,49 @@ if ($_SERVER['REQUEST_METHOD']=="POST"){
   $message.="Curs alumne/a: ".strip_tags($_POST['cursalumne'])."<br>\n";
   $message.="Observacions<br>\n".strip_tags($_POST['observacions']);
   $message.="</body></html>";
-  $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
-  $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-  $cabeceras .= 'Bcc: extraescolars@sjo.es' . "\r\n";
-  $r=mail($to, $subject, $message, $cabeceras);
-  if ($r) {
+  $bodytext=strip_tags($message);
+  $nameto=$_SERVER['nom'];
+//   $cabeceras  = 'MIME-Version: 1.0' . "\r\n";
+//   $cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+//   $cabeceras .= 'Bcc: extraescolars@sjo.es' . "\r\n";
+//  $r=mail($to, $subject, $message, $cabeceras);
+  $rr=sendmailsmtp($to,$nameto,$subject,$message,$bodytext,"extraescolars@sjo.es");
+  if ($rr) {
     echo "Incidència creada<br>\n";
-    echo "<a href=\"./taula.php\">&lt;&lt; Tornar a la selecció d'extraescolars</a>";
   } else {
-    echo "Hi ha hagut un problema tot enviant el correu de la incidència.";
+    echo "Hi ha hagut un problema tot enviant el correu de la incidència.<br>\n";
   }
 } else {
     
 ?>
 
-<p>Ompli la informació que falta i enviï la incidència.</p>
-
+<p>Està a punt de reportar una incidència amb les següents dades:</p>
 <?php echo infoincidencia(); ?>
-  
+
+<p>Ompli la informació que falta i enviï la incidència:</p>  
 <form action="" method="POST">
-  <p>
+<!--   <p>
   <label for="form-nomalumne">Nom sencer de l'alumne/a</label>
   <input type="text" name="nomalumne" id="form-nomalumne" >
-  </p>
-  <p>
+  </p> -->
+    <?php htmlinputtext('nomalumne',"Introdueixi el nom sencer de l'alumne/a","Nom sencer de l'alumne/a",'Escrigui aquí el nom');?>
+<!--   <p>
   <label for="form-cursalumne">Curs que fa l'alumne</label>
   <input type="text" name="cursalumne" id="form-cursalumne" >
-  </p>
-  <p>
+  </p> -->
+    <?php htmlinputtext('cursalumne',"Introdueixi el curs de l'alumne/a","Curs de l'alumne/a",'Escrigui aquí el curs');?>
+<!--   <p>
     <label for="form-observacions">Altres observacions</label><br>
     <textarea name="observacions" id="form-observacions" ></textarea>
-  </p>
-  <input type="submit" value="enviar">
+  </p> -->
+   <?php htmltextarea("observacions","","Altres observacions","Altre informació rellevant") ?>
+  
+<!--   <input type="submit" value="enviar"> -->
+    <?php htmlbuttonsubmit('Enviar'); ?>
 </form>
 
 <?php
 }
+  htmlbuttonleftlink("Tornar a la selecció d'extraescolars","taula.php");
+require('inc-html-foot.php');
 ?>
-  
-</body>
-</html>

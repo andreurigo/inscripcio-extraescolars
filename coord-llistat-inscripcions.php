@@ -18,7 +18,7 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
    }
   // The first write is without append option in order to delete the file
 //  file_put_contents('output/inscripcions.csv',"inscid;nomresp;correuresp;alumneid;exescid;sessionid;data".PHP_EOL,LOCK_EX);
-  file_put_contents('output/inscripcions.csv',"Extraescolar;Sessio;Nom;Llinatge1;Llinatge2;Classe;Nom responsable;Correu Responsable;Data inscripció".PHP_EOL,LOCK_EX);
+  file_put_contents('output/inscripcions.csv',"Id;Extraescolar;Sessio;Nom;Llinatge1;Llinatge2;Classe;Nom responsable;Correu Responsable;Data inscripcio".PHP_EOL,LOCK_EX);
   
   $q="SELECT * FROM `inscripcions`";
   $rr = mysqli_query($dbc, $q);
@@ -35,7 +35,7 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
  $fullinfo=getfullinfofromids($dbc,$row['sessionid'],$row['extescid'],$row['alumneid']);
  list($sessionname,$extraescolarname,$nomalumne,$llinatge1alumne,$llinatge2alumne,$nomclasse)=$fullinfo;
  //Línea de dades
- $line=$extraescolarname."; ".$sessionname."; ".$nomalumne."; ".$llinatge1alumne."; ".trim($llinatge2alumne)."; ".$nomclasse."; ".$row['nomresp']."; ".$row['correuresp']."; ".$row['data'];
+ $line=$row['inscid']."; ".$extraescolarname."; ".$sessionname."; ".$nomalumne."; ".$llinatge1alumne."; ".trim($llinatge2alumne)."; ".$nomclasse."; ".$row['nomresp']."; ".$row['correuresp']."; ".$row['data'];
 
 //      // Obtenim el nom de l'extraescolar
 //      $r=getfieldfromid($dbc,'extraescolars','extescid',$row['extescid'],'nom');
@@ -95,7 +95,8 @@ if ($_SESSION['responsable']||$_SESSION['administrator']){ // check admin
 } //check admin
 
 // El botó de tornar al menú s'ha de veure en tot moment
-htmlbuttonleftlink("Tornar al menú","validaciocodi.php"); 
+// Mogut a inc-html-foot.php
+//htmlbuttonleftlink("Tornar al menú","validaciocodi.php"); 
   
 require('inc-html-foot.php');
 ?>
