@@ -139,7 +139,8 @@ if ($_SERVER['REQUEST_METHOD']=='POST') {
     No estau autoritzats a veure aquesta pàgina.
   </p>
 <?php
-  } // check admin 
-  htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
+  } // check admin
+  //Mogut al footer
+  //htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
 require('inc-html-foot.php');
 ?>

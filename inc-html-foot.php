@@ -1,5 +1,5 @@
 <?php
-  if ($_SESSION['administrator']) {
+  if ($_SESSION['administrator'] || $_SESSION['responsable']) {
     htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
   } 
 ?>

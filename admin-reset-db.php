@@ -46,7 +46,8 @@ ATENCIÓ:
   
 <?php
   } // check post
-        htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
+        //Mogut al footer
+        //htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
 } else { //check admin
 ?>
   <p>

@@ -38,7 +38,8 @@ Atenció: Si espitjau 'actualitzar', es guarden tots els valors mostrats. Teniu 
   
 <?php
   } // check post
-          htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
+         // Mogut al footer
+         // htmlbuttonleftlink("Tornar al menú","validaciocodi.php");
 } else { //check admin
 ?>
   <p>
