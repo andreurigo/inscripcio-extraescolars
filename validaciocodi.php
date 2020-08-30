@@ -8,6 +8,7 @@ htmltitle(TITLE);
 
 function menuadministrador() {
         htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Esborrar una inscripció","coord-del-insc.php");
         htmlbuttonrightlink("Configuració","admin-configuracio.php");
         htmlbuttonrightlink("Importació alumnes","admin-importacio-alumnes.php");
         htmlbuttonrightlink("Importació extraescolars","admin-importacio-extraescolars.php");
@@ -18,6 +19,7 @@ function menuadministrador() {
 
 function menuresponsable() {
         htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Esborrar una inscripció","coord-del-insc.php");
         htmlbuttonrightlink("Finalitzar","logout.php");
 }
 
