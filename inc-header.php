@@ -47,7 +47,7 @@ if(file_exists('input/extraescolars.csv')) {
 $filepatharray = explode("/",$_SERVER['PHP_SELF']);
 $filename=$filepatharray[(count($filepatharray)-1)];
 if ($conf['debug']=='on') echo "filename $filename<br />\n";
-if ($filename!="index.php" && $filename!="validaciocodi.php" && $filename!="no-activat.php") {
+if ($filename!="index.php" && $filename!="validaciocodi.php" && $filename!="logout.php" && $filename!="no-activat.php") {
   if (!$_SESSION['activat'] && 
       $_SESSION['correu']!=$conf['correuadmin'] && 
       $_SESSION['correu']!=$conf['correucontacte']) {
