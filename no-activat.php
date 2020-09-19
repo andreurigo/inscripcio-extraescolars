@@ -18,7 +18,8 @@ htmltitle(TITLE);
         echo "La inscripció s'activarà a les $hour:$minute el $day del $month de $year";
         if ($faltenminuts<600) echo "<br />Falten $faltenminuts minuts";
       }
-  
+
+      htmlbuttonleftlink("Tornar a començar","index.php");
  
 require('inc-html-foot.php');
 ?>
