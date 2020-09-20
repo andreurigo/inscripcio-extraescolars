@@ -5,7 +5,7 @@ define('TITLE',"Esborrat inscripcions");
 require('inc-html-head.php');
 htmltitle(TITLE);
   //require("functions.php");
-if ($_SESSION['responsable']||$_SESSION['admin']){ // check responsable
+if ($_SESSION['responsable']||$_SESSION['administrator']){ // check responsable
   if($_SERVER['REQUEST_METHOD']=='POST'){  // check post
     if($_POST["confirmid"]=="x1123y"){
       $q="SELECT * FROM `inscripcions` WHERE `inscid`={$_POST['inscid']}";
