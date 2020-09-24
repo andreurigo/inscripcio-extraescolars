@@ -7,7 +7,8 @@ require('inc-html-head.php');
 htmltitle(TITLE);
 
 function menuadministrador() {
-        htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Llistat inscripcions (fitxer)","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Llistat inscripcions (pantalla)","coord-llistat-inscripcions-2.php");
         htmlbuttonrightlink("Esborrar una inscripció","coord-del-insc.php");
         htmlbuttonrightlink("Configuració","admin-configuracio.php");
         htmlbuttonrightlink("Importació alumnes","admin-importacio-alumnes.php");
@@ -18,7 +19,8 @@ function menuadministrador() {
 }
 
 function menuresponsable() {
-        htmlbuttonrightlink("Obtenir llistat inscripcions","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Llistat inscripcions (fitxer)","coord-llistat-inscripcions.php");
+        htmlbuttonrightlink("Llistat inscripcions (pantalla)","coord-llistat-inscripcions-2.php");
         htmlbuttonrightlink("Esborrar una inscripció","coord-del-insc.php");
         htmlbuttonrightlink("Finalitzar","logout.php");
 }
@@ -63,6 +65,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
         Benvolgut/da <?php echo $_SESSION['nom'] ?> introdueixi el codi que rebrà en el correu <?php echo $_SESSION['correu'] ?>
       </p>
       <p>Teniu en compte que el codi pot tardar uns minuts en arribar al correu.</p>
+      <p>
+        <strong>Si no rebeu el correu, revisau la safata de correu no desitjat o provau amb un altre correu.</strong>
+      </p>
     <!--   <label>Codi: <input type="text" name="codi"></label><br /> -->
       <?php htmlinputtext('codi','Introdueixi el codi rebut en el correu','Codi enviat per correu:','Escrigui aquí el codi');?>
       <?php htmlbuttonsubmit('Validar'); ?>
@@ -74,7 +79,6 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
     triamenu();
   }
 }   //($_SERVER['REQUEST_METHOD']=='POST') 
+
+require('inc-html-foot.php');
 ?>
-  
-</body>
-</html>
