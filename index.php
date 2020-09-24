@@ -19,8 +19,8 @@ if (!empty($_POST['nom']) && !empty($_POST['correu'])) {
 $to = $_POST['correu'];
 $subject = "Codi Inscripcio Extraescolars";
 $codi=rand(10000,99999);
-$body = "Benvolgut/da ".$_POST['nom']." el codi ";
-$body .= "per accedir a la inscripció de extraescolars és: ".$codi;
+$body = "Benvolgut/da ".$_POST['nom']." aqui tens ";
+$body .= "el codi per accedir: ".$codi;
 // Enviament amb la funció mail() de PHP. No funciona a certs hostings
 //$r=mail($to, $subject, $body);
 // if (!$r) {
